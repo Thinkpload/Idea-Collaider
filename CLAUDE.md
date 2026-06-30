@@ -68,6 +68,17 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Project
 
-**Stack:** unknown — update this section
+**Idea Collider (Коллайдер идей)** — a skill for Claude.ai that generates ideas by *colliding* distant threads from the user's own memory/context, plus a static landing page.
 
-> TODO: fill in project-specific commands, conventions, and do/don't rules.
+**Stack:** Static HTML/CSS/JS (single-file `index.html`, vanilla canvas animation, no build step) · deployed on Vercel · the skill itself is `SKILL.md` / `idea-collider.skill`.
+
+**Key files:**
+- `index.html` — landing + live demo. Self-contained; the demo data lives in three JS arrays (`DOMAINS`, `BANK`, `INV`) near the bottom. Demo uses a **generic example profile** — never put real personal data here (public repo).
+- `SKILL.md` — the method (the actual product). `idea-collider.skill` is its packaged form.
+- `PLAN.md` — launch checklist + product-backend roadmap.
+- `drafts/` — early landing versions, kept for history.
+
+**Conventions:**
+- Landing copy is in Russian; keep it.
+- No build tooling — edit `index.html` directly, open in a browser to verify.
+- Repo is public: keep it depersonalized (no real names, portfolio, or private market details).
