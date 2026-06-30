@@ -7,6 +7,7 @@
 <br>
 
 ![Claude.ai Skill](https://img.shields.io/badge/Claude.ai-Skill-FF2E97?style=for-the-badge&labelColor=0A0A0F)
+![Cursor Rule](https://img.shields.io/badge/Cursor-Rule-00E5D4?style=for-the-badge&labelColor=0A0A0F)
 ![Powered by memory](https://img.shields.io/badge/powered%20by-memory-00E5D4?style=for-the-badge&labelColor=0A0A0F)
 ![Static landing](https://img.shields.io/badge/landing-static%20HTML-E8E4D8?style=for-the-badge&labelColor=0A0A0F)
 ![Deploy on Vercel](https://img.shields.io/badge/deploy-Vercel-000000?style=for-the-badge&logo=vercel)
@@ -98,7 +99,11 @@
 
 ## 📦 Установка
 
-Idea Collider — это [skill для Claude.ai](https://www.anthropic.com/news/skills). Файл скилла — [`idea-collider.skill`](idea-collider.skill), исходник метода — [`SKILL.md`](SKILL.md).
+Idea Collider — это метод-промпт, который работает и как [skill для Claude.ai](https://www.anthropic.com/news/skills), и как правило для **Cursor**. Исходник метода — [`SKILL.md`](SKILL.md).
+
+#### В Claude.ai
+
+Файл скилла — [`idea-collider.skill`](idea-collider.skill).
 
 1. Открой **Claude.ai → Settings → Capabilities → Skills**
 2. Загрузи [`idea-collider.skill`](idea-collider.skill)
@@ -106,6 +111,14 @@ Idea Collider — это [skill для Claude.ai](https://www.anthropic.com/news
    > «придумай идею под меня» · «коллайдер идей» · «столкни мои нити» · `collide my ideas`
 
 Память подгружается в рантайме автоматически — на твоём собственном корпусе.
+
+#### В Cursor
+
+Правило — [`.cursor/rules/idea-collider.mdc`](.cursor/rules/idea-collider.mdc).
+
+1. Скопируй файл [`.cursor/rules/idea-collider.mdc`](.cursor/rules/idea-collider.mdc) в `.cursor/rules/` своего проекта
+2. Позови коллайдер тем же триггером или через `@idea-collider`
+3. Рабочие нити Cursor возьмёт из открытого проекта (стек, домен, модули), а личные/культурные — **доспросит интейком**: персональной памяти у Cursor нет, и почти вся искра приходит именно оттуда.
 
 ---
 
@@ -121,10 +134,11 @@ Idea Collider — это [skill для Claude.ai](https://www.anthropic.com/news
 ## 🗂️ Структура репозитория
 
 ```
-index.html              лендинг / живое демо (деплоится на Vercel)
-SKILL.md                исходник метода (сам скилл)
-idea-collider.skill     упакованный skill для загрузки в Claude.ai
-PLAN.md                 план: launch-чеклист + product roadmap
+index.html                      лендинг / живое демо (деплоится на Vercel)
+SKILL.md                        исходник метода (сам скилл)
+idea-collider.skill             упакованный skill для загрузки в Claude.ai
+.cursor/rules/idea-collider.mdc правило для Cursor (тот же метод, нити из проекта + интейк)
+PLAN.md                         план: launch-чеклист + product roadmap
 vercel.json             конфиг статического деплоя
 drafts/                 ранние версии лендинга (история)
 ```
