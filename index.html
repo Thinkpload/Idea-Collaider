@@ -79,6 +79,7 @@
     color:var(--dim);letter-spacing:.04em;
   }
   .who u{color:var(--cyan);text-decoration:none}
+  .who i{color:var(--mag);font-style:normal}
 
   /* ---------- COLLIDER ---------- */
   .chamber{
@@ -107,20 +108,42 @@
     font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
     letter-spacing:.14em;text-transform:uppercase;color:var(--base);
     background:var(--cyan);border:none;border-radius:8px;padding:13px 22px;
-    cursor:pointer;transition:transform .12s ease,box-shadow .2s ease;
+    cursor:pointer;transition:transform .12s ease,box-shadow .2s ease,background .2s ease;
     box-shadow:0 0 0 0 rgba(0,229,212,.5);
   }
   .smash:hover{transform:translateY(-1px);box-shadow:0 6px 22px -6px rgba(0,229,212,.6)}
   .smash:active{transform:translateY(0)}
   .smash:focus-visible{outline:2px solid var(--mag);outline-offset:3px}
+  .smash.target-on{background:var(--mag)}
+  .smash.target-on:hover{box-shadow:0 6px 22px -6px rgba(255,46,151,.6)}
   .counter{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);letter-spacing:.1em}
   .counter b{color:var(--bone)}
+
+  /* mode toggle — control panel switch */
+  .modes{
+    display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .mode-btn{
+    font-family:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    background:transparent;color:var(--dim);border:none;padding:11px 14px;cursor:pointer;
+    transition:color .15s,background .15s;
+  }
+  .mode-btn.on{color:var(--base);background:var(--cyan);font-weight:700}
+  .mode-btn.t.on{background:var(--mag)}
+  .mode-btn:focus-visible{outline:2px solid var(--bone);outline-offset:-2px}
+  .target-chip{
+    display:none;font-family:'JetBrains Mono',monospace;font-size:11.5px;
+    color:var(--mag);border:1px dashed rgba(255,46,151,.45);border-radius:6px;
+    padding:8px 12px;letter-spacing:.04em;
+  }
+  .target-chip.show{display:inline-block}
 
   /* ---------- DETECTOR LOG ---------- */
   .log{margin:26px 0 0;display:grid;gap:14px}
   .card{
     border:1px solid var(--line);border-radius:12px;background:var(--panel2);
-    padding:22px 22px 20px;position:relative;overflow:hidden;
+    padding:22px 22px 18px;position:relative;overflow:hidden;
     animation:slidein .5s cubic-bezier(.2,.7,.2,1) both;
   }
   .card::before{
@@ -135,12 +158,52 @@
   .tag{padding:3px 9px;border-radius:5px;font-size:11px;white-space:nowrap}
   .tag.c{color:var(--cyan);background:rgba(0,229,212,.10);border:1px solid rgba(0,229,212,.25)}
   .tag.m{color:var(--mag);background:rgba(255,46,151,.10);border:1px solid rgba(255,46,151,.25)}
+  .tag.t{color:var(--mag);background:transparent;border:1px dashed rgba(255,46,151,.5)}
+  .typetag{
+    margin-left:auto;padding:3px 9px;border-radius:5px;font-size:10.5px;
+    letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;
+    color:var(--bone);background:rgba(232,228,216,.06);border:1px solid rgba(232,228,216,.18);
+  }
   .x{color:var(--bone);opacity:.5}
   .card h3{
     font-family:'Unbounded',sans-serif;font-weight:600;font-size:21px;
     letter-spacing:-.01em;margin-bottom:9px;line-height:1.15;
   }
   .card p{color:#C5C1B6;font-size:15.5px}
+
+  /* verdicts + dig — detector readout row */
+  .readout{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    margin-top:15px;padding-top:13px;border-top:1px dashed var(--line);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .rlabel{font-size:10.5px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+  .vbtn{
+    font-family:inherit;font-size:11px;letter-spacing:.06em;padding:6px 11px;
+    border-radius:6px;border:1px solid var(--line);background:transparent;
+    color:var(--dim);cursor:pointer;transition:color .15s,border-color .15s;
+  }
+  .vbtn:hover{color:var(--bone);border-color:rgba(232,228,216,.35)}
+  .vbtn.sel[data-v="банально"]{color:var(--bone);border-color:rgba(232,228,216,.5);background:rgba(232,228,216,.07)}
+  .vbtn.sel[data-v="искра"]{color:var(--cyan);border-color:rgba(0,229,212,.55);background:rgba(0,229,212,.08);box-shadow:0 0 12px -4px var(--cyan)}
+  .vbtn.sel[data-v="абсурд"]{color:var(--mag);border-color:rgba(255,46,151,.55);background:rgba(255,46,151,.08)}
+  .vnote{font-size:11px;color:var(--dim);letter-spacing:.03em}
+  .vnote.c{color:var(--cyan)}
+  .digbtn{
+    font-family:inherit;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    margin-left:auto;padding:6px 12px;border-radius:6px;cursor:pointer;
+    border:1px solid rgba(0,229,212,.35);background:transparent;color:var(--cyan);
+    transition:background .15s;
+  }
+  .digbtn:hover{background:rgba(0,229,212,.08)}
+  .plan{display:none;margin-top:13px}
+  .plan.open{display:block}
+  .plan .plabel{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;
+    color:var(--cyan);text-transform:uppercase;margin-bottom:8px;
+  }
+  .plan ol{margin-left:20px}
+  .plan li{font-size:14px;color:#C5C1B6;margin:5px 0}
   .empty{
     border:1px dashed var(--line);border-radius:12px;padding:26px;text-align:center;
     color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.05em;
@@ -183,6 +246,69 @@
   .step h4{font-family:'Unbounded',sans-serif;font-weight:600;font-size:17px;margin-bottom:7px}
   .step p{font-size:14px;color:#A9A59B}
 
+  /* beam modes panels */
+  .beams{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.beams{grid-template-columns:1fr}}
+  .beam{
+    border:1px solid var(--line);border-radius:12px;background:var(--panel);
+    padding:22px;position:relative;overflow:hidden;
+  }
+  .beam::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px}
+  .beam.free::before{background:var(--cyan)}
+  .beam.aim::before{background:var(--mag)}
+  .beam .blabel{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;margin-bottom:10px;
+  }
+  .beam.free .blabel{color:var(--cyan)}
+  .beam.aim .blabel{color:var(--mag)}
+  .beam h4{font-family:'Unbounded',sans-serif;font-weight:600;font-size:18px;margin-bottom:8px}
+  .beam p{font-size:14.5px;color:#B7B3A9}
+  .beam .cmd{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--bone)}
+
+  /* joint types */
+  .joints{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  @media(max-width:860px){.joints{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:560px){.joints{grid-template-columns:1fr 1fr}}
+  .joint{
+    border:1px solid var(--line);border-radius:10px;background:var(--panel);
+    padding:16px 14px;
+  }
+  .joint .jname{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;margin-bottom:7px;
+  }
+  .joint:nth-child(odd) .jname{color:var(--cyan)}
+  .joint:nth-child(even) .jname{color:var(--mag)}
+  .joint p{font-size:13px;color:#A9A59B;line-height:1.45}
+  .joint-note{
+    margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:12px;
+    color:var(--dim);letter-spacing:.04em;
+  }
+
+  /* second takt commands */
+  .takt{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:780px){.takt{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:440px){.takt{grid-template-columns:1fr}}
+  .cmdcard{
+    border:1px solid var(--line);border-radius:10px;background:var(--panel);
+    padding:16px 14px;
+  }
+  .cmdcard .cname{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
+    color:var(--bone);margin-bottom:7px;
+  }
+  .cmdcard .cname::before{content:"» ";color:var(--cyan)}
+  .cmdcard:nth-child(even) .cname::before{color:var(--mag)}
+  .cmdcard p{font-size:13px;color:#A9A59B;line-height:1.45}
+  .takt-note{
+    margin-top:18px;padding:14px 16px;border:1px dashed var(--line);border-radius:10px;
+    font-size:14px;color:#B7B3A9;max-width:720px;
+  }
+  .takt-note .mono{font-size:12.5px}
+  .takt-note .vc{color:var(--cyan)}
+  .takt-note .vm{color:var(--mag)}
+
   /* footer */
   .foot{
     margin:62px 0 70px;padding:24px 22px;border:1px solid var(--line);border-radius:12px;
@@ -211,8 +337,8 @@
   <header class="hero">
     <div class="eyebrow">память&nbsp;→&nbsp;идея // протокол столкновения</div>
     <h1 class="title">Коллайдер<br><span class="rgb">идей</span></h1>
-    <p class="lede">Не генерация с чистого листа — а <b>столкновение</b>. Я беру нити, которые ты накопил за месяцы, и сталкиваю самые далёкие. Новое рождается на стыках, которые ты сам бы не соединил.</p>
-    <p class="who">// пример профиля ниже — <u>твой</u> соберётся из твоей памяти автоматически</p>
+    <p class="lede">Не генерация с чистого листа — а <b>столкновение</b>. Я беру нити, которые ты накопил за месяцы, и сталкиваю самые далёкие. Новое рождается на стыках, которые ты сам бы не соединил. А если ты застрял — пучок направляется в <b>мишень</b>: нити сталкиваются прямо в твою проблему.</p>
+    <p class="who">// пример профиля ниже — <u>твой</u> соберётся из твоей памяти автоматически · попробуй режим <i>мишень</i></p>
   </header>
 
   <!-- COLLIDER -->
@@ -224,15 +350,20 @@
     <canvas id="stage"></canvas>
     <div class="controls">
       <button class="smash" id="smash">⚡ Столкнуть</button>
-      <span class="counter">детектор: <b id="count">0</b> / 8 распадов зафиксировано</span>
+      <div class="modes" role="group" aria-label="Режим пучка">
+        <button class="mode-btn on" id="mode-free">свободный</button>
+        <button class="mode-btn t" id="mode-target">мишень</button>
+      </div>
+      <span class="target-chip" id="target-chip">🎯 мишень: онбординг теряет людей</span>
+      <span class="counter">детектор: <b id="count">0</b> распадов · искры: <b id="sparkcount">0</b></span>
     </div>
   </section>
 
   <!-- DETECTOR LOG -->
   <div class="log" id="log">
-    <div class="empty" id="empty">// нажми «Столкнуть» — детектор покажет, что родилось на стыке</div>
+    <div class="empty" id="empty">// нажми «Столкнуть» — детектор покажет, что родилось на стыке. карточки можно копать и размечать</div>
   </div>
-  <p class="who" style="margin:14px 0 0">// демо на примере профиля — у тебя столкновения соберутся из твоей памяти</p>
+  <p class="who" style="margin:14px 0 0">// демо на примере профиля — у тебя столкновения соберутся из твоей памяти. вердикты <i>банально · искра · абсурд</i> калибруют прицел следующей пачки</p>
 
   <!-- INVENTORY (the portrait) -->
   <section class="sec">
@@ -248,9 +379,60 @@
     <h2>Как работает столкновение</h2>
     <div class="steps">
       <div class="step"><div class="num">01</div><h4>Инжекция</h4><p>Память выгружает твои домены как частицы в камеру.</p></div>
-      <div class="step"><div class="num">02</div><h4>Разгон</h4><p>Берём самые далёкие пары. Семантическая дистанция = неожиданность.</p></div>
+      <div class="step"><div class="num">02</div><h4>Разгон</h4><p>Сталкиваем поперёк каналов: рабочая нить × личная. Дистанция = неожиданность.</p></div>
       <div class="step"><div class="num">03</div><h4>Фильтр</h4><p>Прогоняем сквозь твои ограничения: стек, темп, рынок, бюджет.</p></div>
-      <div class="step"><div class="num">04</div><h4>Детектор</h4><p>На выходе не вайб, а MVP, который реально собрать.</p></div>
+      <div class="step"><div class="num">04</div><h4>Детектор</h4><p>На выходе не вайб, а собираемый MVP — или нестандартный ход для твоей мишени.</p></div>
+    </div>
+  </section>
+
+  <!-- BEAM MODES -->
+  <section class="sec">
+    <div class="sec-eyebrow">режимы пучка</div>
+    <h2>Свободный — и направленный</h2>
+    <div class="beams">
+      <div class="beam free">
+        <div class="blabel">⚡ свободный пучок</div>
+        <h4>Ищем новое</h4>
+        <p>Пары выбираются по всему инвентарю. На выходе — идеи продуктов и MVP, укоренённые в твоих нитях. Запуск: <span class="cmd">«придумай идею под меня»</span>.</p>
+      </div>
+      <div class="beam aim">
+        <div class="blabel">🎯 направленный — мишень</div>
+        <h4>Решаем застрявшее</h4>
+        <p>Твоя проблема фиксируется как нить-мишень, и в неё сталкиваются далёкие личные нити. На выходе — нестандартный ход из тупика. Запуск: <span class="cmd">«я застрял — столкни с моей проблемой»</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOINT TYPES -->
+  <section class="sec">
+    <div class="sec-eyebrow">типы стыка</div>
+    <h2>Не только метафора</h2>
+    <p class="intro">Столкновение может дать пять разных вещей. Детектор определяет тип каждого распада — и не даёт пачке выродиться в пять вариаций одной метафоры.</p>
+    <div class="joints">
+      <div class="joint"><div class="jname">метафора</div><p>Способ подачи из нити B переносится на интерфейс A.</p></div>
+      <div class="joint"><div class="jname">механика</div><p>Правила и ритуалы из B становятся механикой продукта A.</p></div>
+      <div class="joint"><div class="jname">аудитория</div><p>Сообщество нити B — недообслуженный рынок для A.</p></div>
+      <div class="joint"><div class="jname">канал</div><p>Среда или формат B — упаковка и дистрибуция для A.</p></div>
+      <div class="joint"><div class="jname">модель</div><p>Экономика из мира B переносится на бизнес A.</p></div>
+    </div>
+    <p class="joint-note">// правило разнообразия: в пачке из 3–5 карточек — не больше двух одного типа</p>
+  </section>
+
+  <!-- SECOND TAKT -->
+  <section class="sec">
+    <div class="sec-eyebrow">второй такт</div>
+    <h2>Карточка — не конец</h2>
+    <p class="intro">После пачки коллайдер не останавливается — он ждёт команду и вердикты.</p>
+    <div class="takt">
+      <div class="cmdcard"><div class="cname">копай N</div><p>Развить карточку до мини-плана: MVP на неделю, три проверяемых шага.</p></div>
+      <div class="cmdcard"><div class="cname">мутируй N</div><p>Заменить одну нить карточки и столкнуть заново — ядро остаётся, обёртка меняется.</p></div>
+      <div class="cmdcard"><div class="cname">тройное N</div><p>Добавить к паре третью нить с максимальной дистанцией. Редкий, но самый мощный распад.</p></div>
+      <div class="cmdcard"><div class="cname">ещё</div><p>Новая пачка — без повторов пар, с новыми нитями и типами стыка.</p></div>
+    </div>
+    <div class="takt-note">
+      Вердикты — часть метода, а не вежливость: отметь карточки словом
+      <span class="mono">банально</span> · <span class="mono vc">искра</span> · <span class="mono vm">абсурд</span> —
+      и следующая пачка сдвинет дистанцию от банального к искре, а после абсурда достроит мостик. Коллайдер пристреливается под тебя.
     </div>
   </section>
 
@@ -274,32 +456,57 @@
     "Скалолазание","Джаз","Sci-fi","Настолки","Выпечка","Велопоход","Фото"
   ];
 
-  // ---- curated idea bank (collisions) — example profile ----
+  // ---- curated idea bank (free beam) — example profile ----
   const BANK = [
-    {a:"Скалолазание",b:"Канбан-доска",ca:"m",cb:"c",
+    {a:"Скалолазание",b:"Канбан-доска",ca:"m",cb:"c",type:"метафора",
      t:"Трасса вместо колонок",
-     p:"Доска задач, где спринт — скальный маршрут: вехи-зацепы, ключевой участок — самый трудный таск, высота показывает прогресс. «Крепость» снизу вверх читается быстрее, чем колонки. Стык: чтение сложности маршрута переносится на планирование."},
-    {a:"Джаз",b:"Алерты",ca:"m",cb:"c",
+     p:"Доска задач, где спринт — скальный маршрут: вехи-зацепы, ключевой участок — самый трудный таск, высота показывает прогресс. «Крепость» снизу вверх читается быстрее, чем колонки. Стык: чтение сложности маршрута переносится на планирование.",
+     plan:["Нарисовать один спринт как SVG-маршрут с зацепами-задачами — за вечер.","Дать доску-трассу своей команде на одну неделю параллельно с обычной.","Замерить: где быстрее видят перегруз и ключевой таск — на трассе или в колонках."]},
+    {a:"Джаз",b:"Алерты",ca:"m",cb:"c",type:"механика",
      t:"Импровизация оповещений",
-     p:"Система алертов не долбит одинаково, а «солирует»: тема-мотив для штатного, вариация для странного, кода для критичного. Дежурный различает событие по фразе, не читая текст. Стык: джазовая динамика тем переносится на дизайн уведомлений."},
-    {a:"Sci-fi",b:"Онбординг",ca:"m",cb:"c",
+     p:"Система алертов не долбит одинаково, а «солирует»: тема-мотив для штатного, вариация для странного, кода для критичного. Дежурный различает событие по фразе, не читая текст. Стык: правила джазовой импровизации становятся механикой уведомлений.",
+     plan:["Разметить свои алерты на три класса: штатное / странное / критичное.","Собрать три звуковых мотива (5 минут в любом синтезаторе) и повесить на классы.","Неделю подежурить со звуком: различается ли класс события без чтения текста."]},
+    {a:"Sci-fi",b:"Онбординг",ca:"m",cb:"c",type:"метафора",
      t:"Пролог вместо тура",
-     p:"Онбординг продукта как первая глава фантастики: мир, ставка, первый выбор — вместо цепочки тултипов. Пользователь входит в роль, а не в чеклист. Стык: завязка sci-fi-нарратива переносится на первый экран."},
-    {a:"Настолки",b:"B2B-аналитика",ca:"m",cb:"c",
+     p:"Онбординг продукта как первая глава фантастики: мир, ставка, первый выбор — вместо цепочки тултипов. Пользователь входит в роль, а не в чеклист. Стык: завязка sci-fi-нарратива переносится на первый экран.",
+     plan:["Написать пролог на 5 предложений: мир продукта, ставка, первый выбор.","Заменить первый экран онбординга этим прологом с одной развилкой.","Сравнить на 20 новых пользователях: доходимость до первого действия против тура."]},
+    {a:"Настолки",b:"B2B-аналитика",ca:"m",cb:"c",type:"механика",
      t:"Ход вместо отчёта",
-     p:"Аналитика для малого бизнеса как партия в настолку: каждый «ход» — решение с видимой ценой и эффектом на следующий ход. Владелец видит последствия, а не график. Стык: механика последствий из настолок переносится на дашборд."},
-    {a:"Уличное фото",b:"API-док",ca:"m",cb:"c",
-     t:"Кадр на каждый эндпоинт",
-     p:"Документация API, где каждый запрос — «решающий момент»: один реальный сценарий-кадр вместо абстрактной схемы. Разработчик схватывает смысл за секунду. Стык: композиция решающего момента переносится на примеры в доке."},
-    {a:"Выпечка",b:"CI/CD",ca:"m",cb:"c",
-     t:"Рецепт как пайплайн",
-     p:"Шаблон деплоя описан как рецепт: ингредиенты-зависимости, расстойка-таймауты, признаки готовности-проверки. Новичок катит релиз «по рецепту». Стык: дисциплина пропорций из выпечки переносится на воспроизводимость сборки."},
-    {a:"Велопоход",b:"Тайм-трекинг",ca:"m",cb:"c",
+     p:"Аналитика для малого бизнеса как партия в настолку: каждый «ход» — решение с видимой ценой и эффектом на следующий ход. Владелец видит последствия, а не график. Стык: механика последствий из настолок становится механикой дашборда.",
+     plan:["Выбрать одно решение владельца (закупка, скидка) и описать его как ход с ценой.","Собрать экран «твой ход»: три варианта, у каждого видимая цена и эффект.","Показать одному владельцу малого бизнеса рядом с обычным графиком — что понятнее."]},
+    {a:"Уличное фото",b:"API-док",ca:"m",cb:"c",type:"канал",
+     t:"Док как фотолента",
+     p:"Гайды по API публикуются как серия «решающих кадров» — по одному сценарию на карточку, в ленте и каруселях, куда разработчики уже смотрят. Не сайт с доками, а канал, который листают. Стык: формат фотоленты становится дистрибуцией документации.",
+     plan:["Взять три самых частых сценария своего API и сжать каждый до одной карточки-кадра.","Опубликовать серию в dev-канале (телеграм/твиттер) с кодом прямо на карточке.","Сравнить переходы в док: с карточек против обычных ссылок «почитай доку»."]},
+    {a:"Выпечка",b:"CI/CD",ca:"m",cb:"c",type:"модель",
+     t:"Пайплайн по подписке, как хлеб",
+     p:"Каталог проверенных деплой-рецептов со «свежей выпечкой» раз в неделю: команда подписывается и получает обновляемые, проверенные пайплайны — горячими и по расписанию. Стык: экономика пекарни (регулярная свежесть, а не разовая покупка) переносится на дистрибуцию DevOps-шаблонов.",
+     plan:["Оформить два своих боевых пайплайна как «рецепты»: ингредиенты, шаги, признаки готовности.","Завести рассылку «свежий рецепт недели» на 10 знакомых команд.","Через месяц спросить: платили бы за подписку — и сколько."]},
+    {a:"Велопоход",b:"Тайм-трекинг",ca:"m",cb:"c",type:"метафора",
      t:"Перегон вместо часов",
-     p:"Трекер времени, где день — веломаршрут: перегоны-фокус-блоки, подъёмы-сложные задачи, привалы. Видно не «сколько часов», а «какой был рельеф». Стык: чтение профиля маршрута переносится на ретроспективу дня."},
-    {a:"Прогулки",b:"Поиск по продукту",ca:"m",cb:"c",
-     t:"Маршрут вместо списка",
-     p:"Поиск ведёт не списком ссылок, а «прогулкой»: связанные результаты выстроены в путь с поворотами-уточнениями. Пользователь гуляет к ответу. Стык: логика пешего маршрута переносится на навигацию по выдаче."}
+     p:"Трекер времени, где день — веломаршрут: перегоны-фокус-блоки, подъёмы-сложные задачи, привалы. Видно не «сколько часов», а «какой был рельеф». Стык: чтение профиля маршрута переносится на ретроспективу дня.",
+     plan:["Нарисовать вчерашний день как профиль маршрута: подъёмы, перегоны, привалы.","Собрать генератор такого профиля из экспорта своего трекера (один скрипт).","Неделю закрывать день взглядом на рельеф: меняет ли это планирование завтра."]},
+    {a:"Джаз",b:"Боты",ca:"m",cb:"c",type:"аудитория",
+     t:"Джем-бот для своих",
+     p:"Telegram-бот, в котором локальное джаз-сообщество собирает джемы: кто играет, где, какой состав нужен. Малый, но преданный рынок, до которого не дотягиваются большие афиши. Стык: сообщество из личной нити оказывается недообслуженной аудиторией для бот-стека.",
+     plan:["Спросить в своём джаз-чате: как сейчас собираются джемы и что бесит.","Собрать бота с одной функцией: «ищу состав на дату» + отклики.","Прогнать один реальный джем через бота от анонса до сбора состава."]}
+  ];
+
+  // ---- targeted beam bank — same example profile, fixed target ----
+  const TARGET_NAME = "онбординг теряет людей";
+  const TARGET_BANK = [
+    {b:"Скалолазание",cb:"m",type:"механика",
+     t:"Страховка первого входа",
+     p:"Новичок проходит первые шаги «в связке»: существующий пользователь-страхующий получает бонус за доведение напарника до первой ценности. Никто не лезет первый маршрут один. Стык: клубное правило «новичок — только со страховкой» становится механикой активации.",
+     plan:["Определить «первую зацепку» — минимальное действие, после которого новички остаются.","Предложить пяти активным пользователям роль страхующего за бонус.","Сравнить доходимость связок против одиночек на 30 регистрациях."]},
+    {b:"Выпечка",cb:"m",type:"механика",
+     t:"Признаки готовности",
+     p:"Пекарь пускает тесто в печь не по таймеру, а по признакам. Онбординг перестаёт вести всех по одному туру: продукт открывает следующий слой, когда видны признаки готовности пользователя — а не по счётчику шагов. Стык: проверка готовности теста становится механикой раскрытия фич.",
+     plan:["Выписать 3 признака, по которым видно, что пользователь «подошёл» к сложной фиче.","Скрыть одну продвинутую фичу за признаком вместо шага тура.","Замерить: меньше ли бросают на этом участке, чем при принудительном туре."]},
+    {b:"Sci-fi",cb:"m",type:"метафора",
+     t:"Пробуждение вместо пустоты",
+     p:"Пользователь «просыпается» в продукте, где жизнь уже шла: демо-данные как память корабля, следы событий, первая задача уже ждёт. Пустой экран не встречает никого. Стык: троп пробуждения на корабле из sci-fi лечит холодный старт.",
+     plan:["Собрать один осмысленный демо-мир вместо пустого состояния (реалистичные данные, история).","Положить в него одну ждущую задачу — «продолжи то, что уже началось».","A/B на новых пользователях: пустой экран против пробуждения."]}
   ];
 
   // ---- inventory chips (example profile) ----
@@ -340,8 +547,8 @@
 
   const COL={c:'0,229,212',m:'255,46,151'};
   let sparks=[], flash=0;
-  // accelerate state
-  let acc=null; // {p1,p2,phase} phase: 'in' | done
+  let acc=null;          // {p1,p2} — free mode: two particles fly to center
+  let targetMode=false;  // beam mode
 
   function drawParticle(p,big){
     const c=COL[p.hue];
@@ -351,15 +558,56 @@
     ctx.fillStyle='rgba('+c+',1)';
     ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fill();
     ctx.restore();
-    // label
     ctx.font='10px "JetBrains Mono", monospace';
     ctx.fillStyle='rgba(232,228,216,'+(big?.85:.42)+')';
     ctx.textAlign='center';
     ctx.fillText(p.label,p.x,p.y-10);
   }
 
+  function drawBeamAxis(){
+    ctx.save();
+    ctx.strokeStyle='rgba(232,228,216,.05)';ctx.lineWidth=1;
+    ctx.setLineDash([2,7]);
+    ctx.beginPath();ctx.moveTo(0,H/2);ctx.lineTo(W,H/2);ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawTargetRing(){
+    const cx=W/2, cy=H/2;
+    ctx.save();
+    ctx.strokeStyle='rgba(255,46,151,.55)';ctx.lineWidth=1.5;
+    ctx.setLineDash([5,5]);
+    ctx.beginPath();ctx.arc(cx,cy,26,0,Math.PI*2);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.strokeStyle='rgba(255,46,151,.3)';
+    ctx.beginPath();ctx.arc(cx,cy,12,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='rgba(255,46,151,.9)';
+    ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fill();
+    ctx.font='10px "JetBrains Mono", monospace';
+    ctx.fillStyle='rgba(255,46,151,.8)';
+    ctx.textAlign='center';
+    ctx.fillText('мишень',cx,cy-34);
+    ctx.restore();
+  }
+
+  function burst(cx,cy){
+    flash=1;
+    for(let i=0;i<46;i++){
+      const ang=rnd(0,Math.PI*2),sp=rnd(.6,4.2);
+      sparks.push({x:cx,y:cy,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,life:1,
+        hue:Math.random()<.5?'c':(Math.random()<.5?'m':'w')});
+    }
+  }
+
+  function rescatter(p){
+    p.x=rnd(50,W-50);p.y=rnd(40,H-40);
+    p.vx=rnd(-.22,.22);p.vy=rnd(-.22,.22);
+  }
+
   function tick(){
     ctx.clearRect(0,0,W,H);
+    drawBeamAxis();
+    if(targetMode) drawTargetRing();
 
     // ambient drift
     if(!acc){
@@ -372,27 +620,17 @@
       }
     }
 
-    // accelerate two toward center
+    // accelerate toward center
     if(acc){
       const cx=W/2, cy=H/2;
-      [acc.p1,acc.p2].forEach((p,idx)=>{
-        const tx=cx+(idx===0?-1:1)*0; const ty=cy;
-        p.x+=(cx-p.x)*0.14; p.y+=(cy-p.y)*0.14;
-      });
-      const d=Math.hypot(acc.p1.x-acc.p2.x,acc.p1.y-acc.p2.y);
+      const movers = acc.p2 ? [acc.p1,acc.p2] : [acc.p1];
+      for(const p of movers){ p.x+=(cx-p.x)*0.14; p.y+=(cy-p.y)*0.14; }
+      const d = acc.p2
+        ? Math.hypot(acc.p1.x-acc.p2.x,acc.p1.y-acc.p2.y)
+        : Math.hypot(acc.p1.x-cx,acc.p1.y-cy);
       if(d<14){
-        // BURST
-        flash=1;
-        for(let i=0;i<46;i++){
-          const ang=rnd(0,Math.PI*2),sp=rnd(.6,4.2);
-          sparks.push({x:cx,y:cy,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,life:1,
-            hue:Math.random()<.5?'c':(Math.random()<.5?'m':'w')});
-        }
-        // reseed the two
-        acc.p1.x=rnd(50,W-50);acc.p1.y=rnd(40,H-40);
-        acc.p2.x=rnd(50,W-50);acc.p2.y=rnd(40,H-40);
-        acc.p1.vx=rnd(-.22,.22);acc.p1.vy=rnd(-.22,.22);
-        acc.p2.vx=rnd(-.22,.22);acc.p2.vy=rnd(-.22,.22);
+        burst(cx,cy);
+        for(const p of movers) rescatter(p);
         acc=null;
         reveal();
       }
@@ -430,45 +668,119 @@
   requestAnimationFrame(tick);
 
   // ---- reveal idea into log ----
-  let idx=0;
+  let idxFree=0, idxTarget=0, decays=0, sparksVerdicts=0;
   const log=document.getElementById('log');
-  const empty=document.getElementById('empty');
   const countEl=document.getElementById('count');
+  const sparkEl=document.getElementById('sparkcount');
   const btn=document.getElementById('smash');
 
-  function reveal(){
-    if(empty){empty.remove();}
-    const d=BANK[idx % BANK.length];
-    const card=document.createElement('div');
-    card.className='card';
-    card.innerHTML=
-      '<div class="collision"><span class="tag '+d.ca+'">'+d.a+'</span>'+
-      '<span class="x">✕</span><span class="tag '+d.cb+'">'+d.b+'</span></div>'+
-      '<h3>'+d.t+'</h3><p>'+d.p+'</p>';
-    log.prepend(card);
-    idx++;
-    countEl.textContent=Math.min(idx,8);
-    if(idx>=BANK.length){
-      btn.textContent='⟳ Цикл пройден — ещё раз';
+  const VNOTES={
+    'банально':'→ подниму дистанцию',
+    'искра':'→ продолжу в эту сторону',
+    'абсурд':'→ достро́ю мостик'
+  };
+
+  function makeReadout(card,d){
+    const row=document.createElement('div');
+    row.className='readout';
+    const lbl=document.createElement('span');
+    lbl.className='rlabel';lbl.textContent='вердикт';
+    row.appendChild(lbl);
+    const note=document.createElement('span');
+    note.className='vnote';
+    let voted=false;
+    ['банально','искра','абсурд'].forEach(v=>{
+      const b=document.createElement('button');
+      b.className='vbtn';b.dataset.v=v;b.textContent=v;
+      b.addEventListener('click',()=>{
+        row.querySelectorAll('.vbtn').forEach(x=>x.classList.remove('sel'));
+        b.classList.add('sel');
+        note.textContent=VNOTES[v];
+        note.classList.toggle('c',v==='искра');
+        if(v==='искра'&&!voted){sparksVerdicts++;sparkEl.textContent=sparksVerdicts;}
+        voted=true;
+      });
+      row.appendChild(b);
+    });
+    row.appendChild(note);
+    if(d.plan){
+      const dig=document.createElement('button');
+      dig.className='digbtn';dig.textContent='копай ↓';
+      const plan=document.createElement('div');
+      plan.className='plan';
+      plan.innerHTML='<div class="plabel">// мини-план · mvp на неделю</div><ol>'+
+        d.plan.map(s=>'<li>'+s+'</li>').join('')+'</ol>';
+      dig.addEventListener('click',()=>{
+        const open=plan.classList.toggle('open');
+        dig.textContent=open?'копай ↑':'копай ↓';
+      });
+      row.appendChild(dig);
+      card.appendChild(row);
+      card.appendChild(plan);
+    }else{
+      card.appendChild(row);
     }
   }
 
-  // ---- click: pick two distant particles, accelerate ----
+  function reveal(){
+    const empty=document.getElementById('empty');
+    if(empty){empty.remove();}
+    let d, head;
+    if(targetMode){
+      d=TARGET_BANK[idxTarget % TARGET_BANK.length]; idxTarget++;
+      head='<span class="tag t">🎯 '+TARGET_NAME+'</span><span class="x">✕</span>'+
+           '<span class="tag '+d.cb+'">'+d.b+'</span>';
+    }else{
+      d=BANK[idxFree % BANK.length]; idxFree++;
+      head='<span class="tag '+d.ca+'">'+d.a+'</span><span class="x">✕</span>'+
+           '<span class="tag '+d.cb+'">'+d.b+'</span>';
+    }
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=
+      '<div class="collision">'+head+
+      '<span class="typetag">'+d.type+'</span></div>'+
+      '<h3>'+d.t+'</h3><p>'+d.p+'</p>';
+    makeReadout(card,d);
+    log.prepend(card);
+    decays++;
+    countEl.textContent=decays;
+  }
+
+  // ---- mode toggle ----
+  const modeFree=document.getElementById('mode-free');
+  const modeTarget=document.getElementById('mode-target');
+  const targetChip=document.getElementById('target-chip');
+  function setMode(t){
+    targetMode=t;
+    modeFree.classList.toggle('on',!t);
+    modeTarget.classList.toggle('on',t);
+    targetChip.classList.toggle('show',t);
+    btn.classList.toggle('target-on',t);
+    btn.textContent=t?'🎯 Столкнуть в мишень':'⚡ Столкнуть';
+  }
+  modeFree.addEventListener('click',()=>setMode(false));
+  modeTarget.addEventListener('click',()=>setMode(true));
+
+  // ---- click: accelerate ----
   btn.addEventListener('click',()=>{
     if(acc) return; // mid-collision
-    // pick two of differing channel, reasonably apart
-    let p1=parts[Math.floor(Math.random()*parts.length)];
-    let cand=parts.filter(p=>p!==p1);
-    cand.sort((a,b)=>Math.hypot(b.x-p1.x,b.y-p1.y)-Math.hypot(a.x-p1.x,a.y-p1.y));
-    let p2=cand[Math.floor(Math.random()*Math.min(4,cand.length))];
     if(reduce){
-      // no fly animation — straight to burst feel
-      flash=1;
-      for(let i=0;i<40;i++){const ang=rnd(0,Math.PI*2),sp=rnd(.6,3.6);
-        sparks.push({x:W/2,y:H/2,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,life:1,
-          hue:Math.random()<.5?'c':'m'});}
+      burst(W/2,H/2);
       reveal();
+      return;
+    }
+    if(targetMode){
+      // one personal-channel particle flies into the target ring
+      const cand=parts.filter(p=>p.hue==='m');
+      const p1=cand[Math.floor(Math.random()*cand.length)]||parts[0];
+      acc={p1,p2:null};
     }else{
+      // two distant particles fly to center
+      let p1=parts[Math.floor(Math.random()*parts.length)];
+      let cand=parts.filter(p=>p!==p1);
+      cand.sort((a,b)=>Math.hypot(b.x-p1.x,b.y-p1.y)-Math.hypot(a.x-p1.x,a.y-p1.y));
+      let p2=cand[Math.floor(Math.random()*Math.min(4,cand.length))];
       acc={p1,p2};
     }
   });
