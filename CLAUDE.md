@@ -75,8 +75,8 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 **Key files:**
 - `index.html` — landing + live demo. Self-contained; the demo data lives in three JS arrays (`DOMAINS`, `BANK`, `INV`) near the bottom. Demo uses a **generic example profile** — never put real personal data here (public repo).
 - `SKILL.md` — the method (the actual product). `idea-collider.skill` is its packaged form.
-- `PLAN.md` — launch checklist + product-backend roadmap.
-- `drafts/` — early landing versions, kept for history.
+- `PLAN.md` — launch checklist + development ideas + product-backend roadmap.
+- `.cursor/rules/idea-collider.mdc` — Cursor port of the method; keep it in sync with `SKILL.md` (and repack `idea-collider.skill` after any `SKILL.md` change).
 
 **Conventions:**
 - Landing copy is in Russian; keep it.
